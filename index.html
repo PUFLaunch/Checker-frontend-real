@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$PUF Stats</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">$PUF Stats</h1>
+            <div class="subtitle">Real-time World Token Statistics</div>
+        </header>
+
+        <main class="stats-grid">
+            <div class="stat-card burnt">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-content">
+                    <h2 class="stat-title">Burnt</h2>
+                    <div class="stat-value" id="burnt-value">Loading...</div>
+                    <div class="stat-label">Tokens Burned</div>
+                </div>
+            </div>
+
+            <div class="stat-card treasury">
+                <div class="stat-icon">💰</div>
+                <div class="stat-content">
+                    <h2 class="stat-title">Treasury</h2>
+                    <div class="stat-value" id="treasury-value">Loading...</div>
+                    <div class="stat-label">Added to Treasury</div>
+                </div>
+            </div>
+
+            <div class="stat-card earnings">
+                <div class="stat-icon">🎯</div>
+                <div class="stat-content">
+                    <h2 class="stat-title">Creator Earnings</h2>
+                    <div class="stat-value" id="earnings-value">Loading...</div>
+                    <div class="stat-label">Total Distributed</div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="last-updated">Son güncelleme: <span id="last-update">--</span></div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
