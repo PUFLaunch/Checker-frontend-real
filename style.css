@@ -230,39 +230,221 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
+        padding: 10px;
+    }
+    
+    .header {
+        margin-bottom: 25px;
+        padding: 20px 0;
     }
     
     .header h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+        margin-bottom: 15px;
     }
     
     .dashboard {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 15px;
+        margin-bottom: 20px;
     }
     
-    .token-info {
-        flex-direction: column;
-        gap: 15px;
+    .data-card {
+        padding: 18px;
     }
     
     .main-value .value {
-        font-size: 2.2rem;
+        font-size: 2rem;
+    }
+    
+    .card-footer {
+        font-size: 0.7rem;
+        padding-top: 12px;
+    }
+    
+    .footer {
+        padding: 15px 0;
+        font-size: 0.8rem;
     }
 }
 
 @media (max-width: 480px) {
+    body {
+        line-height: 1.4;
+    }
+    
+    .container {
+        padding: 8px;
+        min-height: 100vh;
+    }
+    
+    .header {
+        margin-bottom: 15px;
+        padding: 15px 0;
+    }
+    
+    .header h1 {
+        font-size: 1.6rem;
+        margin-bottom: 10px;
+    }
+    
+    .price-label {
+        font-size: 0.8rem;
+    }
+    
+    .price-value {
+        font-size: 1rem;
+    }
+    
+    .dashboard {
+        gap: 12px;
+        margin-bottom: 15px;
+    }
+    
     .data-card {
-        padding: 20px;
+        padding: 15px;
+        border-radius: 8px;
+    }
+    
+    .card-header {
+        margin-bottom: 12px;
+    }
+    
+    .card-header h2 {
+        font-size: 1.1rem;
+    }
+    
+    .status-indicator {
+        width: 10px;
+        height: 10px;
+    }
+    
+    .card-content {
+        margin-bottom: 10px;
+    }
+    
+    .main-value {
+        margin-bottom: 8px;
     }
     
     .main-value .value {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
     }
     
-    .token-address {
+    .main-value .unit {
         font-size: 0.8rem;
-        word-break: break-all;
+    }
+    
+    .sub-info {
+        font-size: 0.8rem;
+        gap: 5px;
+    }
+    
+    /* Mobile'da card footer'ları gizle - daha kompakt görünüm */
+    .card-footer {
+        display: none;
+    }
+    
+    .footer {
+        padding: 12px 0;
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .container {
+        padding: 5px;
+    }
+    
+    .header h1 {
+        font-size: 1.4rem;
+    }
+    
+    .dashboard {
+        gap: 10px;
+    }
+    
+    .data-card {
+        padding: 12px;
+    }
+    
+    .card-header h2 {
+        font-size: 1rem;
+    }
+    
+    .main-value .value {
+        font-size: 1.4rem;
+    }
+    
+    .sub-info {
+        font-size: 0.75rem;
+    }
+}
+
+/* Çok kısa ekranlar için özel optimizasyon */
+@media (max-height: 600px) {
+    .header {
+        margin-bottom: 10px;
+        padding: 10px 0;
+    }
+    
+    .header h1 {
+        font-size: 1.4rem;
+        margin-bottom: 8px;
+    }
+    
+    .dashboard {
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+    
+    .data-card {
+        padding: 10px;
+    }
+    
+    .card-header {
+        margin-bottom: 8px;
+    }
+    
+    .card-content {
+        margin-bottom: 5px;
+    }
+    
+    .main-value .value {
+        font-size: 1.3rem;
+    }
+    
+    .footer {
+        padding: 8px 0;
+        font-size: 0.7rem;
+    }
+}
+
+/* Çok kısa ve dar ekranlar için ultra kompakt */
+@media (max-width: 480px) and (max-height: 600px) {
+    .container {
+        padding: 5px;
+    }
+    
+    .header {
+        margin-bottom: 8px;
+        padding: 8px 0;
+    }
+    
+    .dashboard {
+        gap: 6px;
+        margin-bottom: 8px;
+    }
+    
+    .data-card {
+        padding: 8px;
+    }
+    
+    .main-value .value {
+        font-size: 1.2rem;
+    }
+    
+    .sub-info {
+        font-size: 0.7rem;
     }
 }

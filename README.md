@@ -9,7 +9,7 @@ $PUF tokeninin tokenomik verilerini izleyen minimal web dashboard'u.
 - **Creator Royalties** (Mavi) - Yaratıcılara dağıtılan telif hakları
 - **Token Fiyatı** - Anlık $PUF token fiyatı
 - **Otomatik Yenileme** - Her 30 saniyede bir güncelleme
-- **Responsive Tasarım** - Mobil uyumlu
+- **Ultra Responsive** - Mobil uyumlu, kaydırma gerektirmez
 
 ## 🚀 Kullanım
 
@@ -44,6 +44,14 @@ $PUF tokeninin tokenomik verilerini izleyen minimal web dashboard'u.
 ## ⌨️ Klavye Kısayolları
 
 - **ESC** - Manuel veri yenileme (otomatik yenileme her 30 saniyede)
+
+## 📱 Mobile Optimizasyon
+
+Dashboard, tüm ekran boyutlarında kaydırma gerektirmeyecek şekilde optimize edilmiştir:
+- **768px altı:** Kompakt kart düzeni
+- **480px altı:** Footer gizleme, küçültülmüş fontlar
+- **360px altı:** Ultra kompakt görünüm  
+- **Kısa ekranlar:** Yükseklik bazlı optimizasyon
 
 ## 📝 Yapılacaklar
 
