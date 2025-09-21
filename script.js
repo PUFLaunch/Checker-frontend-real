@@ -63,19 +63,61 @@ class PUFTokenChecker {
 
     async fetchTokenPrice() {
         try {
-            // TODO: Real World blockchain API integration
-            // For now, using mock data
-            console.log('💰 Token fiyatı getiriliyor...');
+            console.log('💰 Token fiyatı DexScreener\'dan getiriliyor...');
             
-            // Simulate API delay
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            // DexScreener API endpoint for PUF token on Worldchain
+            const pairAddress = '0x1D3bdD97F3772EAbe2c039476805376e788374d8';
+            const apiUrl = `https://api.dexscreener.com/latest/dex/pairs/worldchain/${pairAddress}`;
             
-            const price = this.mockData.tokenPrice;
-            this.updateTokenPrice(price);
+            const response = await fetch(apiUrl);
+            
+            if (!response.ok) {
+                throw new Error(`DexScreener API error: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            // API'den gelen veriyi kontrol et
+            if (data && data.pairs && data.pairs.length > 0) {
+                const pair = data.pairs[0];
+                const price = parseFloat(pair.priceUsd);
+                
+                if (price && !isNaN(price)) {
+                    console.log(`✅ $PUF fiyatı: $${price}`);
+                    
+                    // 24 saatlik değişim bilgisini al
+                    const priceChange24h = pair.priceChange?.h24;
+                    
+                    this.updateTokenPrice(price, priceChange24h);
+                    
+                    // Ek bilgileri de konsola yazdır
+                    console.log('📊 Ek DexScreener verileri:', {
+                        dex: pair.dexId,
+                        liquidity: pair.liquidity?.usd ? `$${pair.liquidity.usd.toLocaleString()}` : 'N/A',
+                        volume24h: pair.volume?.h24 ? `$${pair.volume.h24.toLocaleString()}` : 'N/A',
+                        priceChange24h: priceChange24h ? `${priceChange24h}%` : 'N/A'
+                    });
+                } else {
+                    throw new Error('Geçersiz fiyat verisi');
+                }
+            } else {
+                throw new Error('Pair verisi bulunamadı');
+            }
             
         } catch (error) {
             console.error('❌ Token fiyat hatası:', error);
-            document.getElementById('tokenPrice').textContent = 'Error';
+            
+            // Hata durumunda fallback - mock data kullan
+            console.log('🔄 Fallback: Mock data kullanılıyor...');
+            const fallbackPrice = this.mockData.tokenPrice;
+            this.updateTokenPrice(fallbackPrice);
+            
+            // Hata göstergesi ekle
+            const priceElement = document.getElementById('tokenPrice');
+            if (priceElement) {
+                priceElement.style.color = '#ff9800'; // Turuncu renk hata için
+                priceElement.title = 'Fiyat verisi geçici olarak erişilemez';
+            }
         }
     }
 
@@ -101,12 +143,49 @@ class PUFTokenChecker {
         }
     }
 
-    updateTokenPrice(price) {
+    updateTokenPrice(price, priceChange24h = null) {
         const priceElement = document.getElementById('tokenPrice');
         if (priceElement) {
-            priceElement.textContent = `$${price.toFixed(4)}`;
+            // Fiyatı göster
+            priceElement.textContent = `$${price.toFixed(6)}`;
             priceElement.classList.remove('loading');
+            
+            // Normal rengi geri getir (error durumundan sonra)
+            priceElement.style.color = '#4CAF50';
+            priceElement.title = '';
+            
+            // Eğer 24 saatlik değişim varsa, header'a ekle
+            if (priceChange24h !== null && !isNaN(priceChange24h)) {
+                this.updatePriceChange(priceChange24h);
+            }
         }
+    }
+    
+    updatePriceChange(priceChange24h) {
+        const tokenInfo = document.querySelector('.token-info');
+        if (!tokenInfo) return;
+        
+        // Mevcut price change elementini kaldır
+        const existingChange = tokenInfo.querySelector('.price-change');
+        if (existingChange) {
+            existingChange.remove();
+        }
+        
+        // Yeni price change elementi oluştur
+        const priceChangeElement = document.createElement('div');
+        priceChangeElement.className = 'price-change';
+        
+        const changeValue = parseFloat(priceChange24h);
+        const isPositive = changeValue >= 0;
+        
+        priceChangeElement.innerHTML = `
+            <span class="change-label">24h:</span>
+            <span class="change-value ${isPositive ? 'positive' : 'negative'}">
+                ${isPositive ? '+' : ''}${changeValue.toFixed(2)}%
+            </span>
+        `;
+        
+        tokenInfo.appendChild(priceChangeElement);
     }
 
     updateTokenomicsDisplay(data) {

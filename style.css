@@ -46,7 +46,6 @@ body {
     flex-wrap: wrap;
 }
 
-
 .token-price {
     display: flex;
     align-items: center;
@@ -62,6 +61,41 @@ body {
     font-weight: bold;
     font-size: 1.2rem;
     color: #4CAF50;
+}
+
+.price-change {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.change-label {
+    color: #999;
+    font-size: 0.85rem;
+    font-weight: normal;
+}
+
+.change-value {
+    font-weight: bold;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.change-value.positive {
+    color: #4CAF50;
+}
+
+.change-value.negative {
+    color: #f44336;
+}
+
+.price-change:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
 }
 
 /* Dashboard Grid */
@@ -294,6 +328,19 @@ body {
     
     .price-value {
         font-size: 1rem;
+    }
+    
+    .price-change {
+        gap: 6px;
+        padding: 6px 10px;
+    }
+    
+    .change-label {
+        font-size: 0.8rem;
+    }
+    
+    .change-value {
+        font-size: 0.9rem;
     }
     
     .dashboard {
