@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>$PUF Stats Dashboard</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Ethers.js v6 CDN (via jsdelivr) -->
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6/dist/ethers.umd.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -30,7 +32,7 @@
                 <div class="card-content">
                     <div class="main-value" id="burnedAmount">
                         <span class="value">0</span>
-                        <span class="unit">WORLD</span>
+                        <span class="unit">WLD</span>
                     </div>
                     <div class="sub-info">
                         <span class="percentage">0%</span>
@@ -45,13 +47,13 @@
             <!-- Treasury Card -->
             <div class="data-card treasury-card">
                 <div class="card-header">
-                    <h2>Treasury Amount</h2>
+                    <h2>Sent to Treasury</h2>
                     <div class="status-indicator treasury-indicator"></div>
                 </div>
                 <div class="card-content">
                     <div class="main-value" id="treasuryAmount">
                         <span class="value">0</span>
-                        <span class="unit">WORLD</span>
+                        <span class="unit">WLD</span>
                     </div>
                     <div class="sub-info">
                         <span class="percentage">0%</span>
@@ -66,13 +68,13 @@
             <!-- Creator Royalties Card -->
             <div class="data-card royalties-card">
                 <div class="card-header">
-                    <h2>Creator Royalties</h2>
+                    <h2>Creator Royalties Distributed</h2>
                     <div class="status-indicator royalties-indicator"></div>
                 </div>
                 <div class="card-content">
                     <div class="main-value" id="royaltiesAmount">
                         <span class="value">0</span>
-                        <span class="unit">WORLD</span>
+                        <span class="unit">WLD</span>
                     </div>
                     <div class="sub-info">
                         <span class="percentage">0%</span>
@@ -87,7 +89,8 @@
 
         <!-- Footer -->
         <footer class="footer">
-            <p>Real-time $PUF blockchain data • Last sync: <span id="lastSync">Never</span></p>
+            <p>Real-time $PUF data • Last sync: <span id="lastSync">Never</span></p>
+            <p class="signature">$PUFBoard by <span class="creator">lambzerfaust.2702</span></p>
         </footer>
     </div>
 

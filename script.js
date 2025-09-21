@@ -4,6 +4,13 @@ class PUFTokenChecker {
         this.contractAddress = '0x1aE3498f1B417fe31BE544B04B711F27Ba437bd3';
         this.apiUrl = 'https://worldscan.org/api'; // World blockchain explorer API placeholder
         this.refreshInterval = 30000; // 30 seconds
+        this.worldchainRPC = 'https://worldchain-mainnet.g.alchemy.com/public'; // World Network RPC
+        this.totalSupply = null; // Gerçek total supply buraya gelecek
+        
+        // Minimal ERC20 ABI - sadece totalSupply için
+        this.erc20ABI = [
+            "function totalSupply() view returns (uint256)"
+        ];
         
         // Mock data for testing (will be replaced with real API data)
         this.mockData = {
@@ -36,6 +43,7 @@ class PUFTokenChecker {
         this.showLoadingState();
         
         try {
+            await this.fetchTotalSupply(); // Önce total supply'ı al
             await this.fetchTokenPrice();
             await this.fetchTokenomicsData();
             this.updateLastSync();
@@ -59,6 +67,33 @@ class PUFTokenChecker {
                 element.classList.add('loading');
             }
         });
+    }
+
+    async fetchTotalSupply() {
+        try {
+            console.log('🔢 Total Supply contract\'tan okunuyor...');
+            
+            // World Network provider oluştur
+            const provider = new ethers.JsonRpcProvider(this.worldchainRPC);
+            
+            // PUF token contract'ına bağlan
+            const contract = new ethers.Contract(this.contractAddress, this.erc20ABI, provider);
+            
+            // Total supply'ı oku
+            const totalSupplyWei = await contract.totalSupply();
+            
+            // Wei'den token cinsine çevir
+            this.totalSupply = this.formatWeiToToken(totalSupplyWei.toString());
+            
+            console.log(`✅ Total Supply: ${this.formatNumber(this.totalSupply)} PUF`);
+            
+        } catch (error) {
+            console.error('❌ Total Supply okuma hatası:', error);
+            
+            // Fallback - sabit değer kullan (PUF için yaklaşık değer)
+            this.totalSupply = 1000000000; // 1B tokens fallback
+            console.log('🔄 Fallback: Total Supply = 1B PUF (yaklaşık)');
+        }
     }
 
     async fetchTokenPrice() {
@@ -125,21 +160,38 @@ class PUFTokenChecker {
         try {
             console.log('📈 Tokenomik verileri getiriliyor...');
             
-            // Simulate API delay
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            const apiUrl = 'https://puf-tracker-indexer-production.up.railway.app/puf';
+            const response = await fetch(apiUrl);
             
-            // Mock data - replace with real API calls later
+            if (!response.ok) {
+                throw new Error(`API hatası: ${response.status}`);
+            }
+            
+            const rawData = await response.json();
+            console.log('🔗 API\'den gelen raw veri:', rawData);
+            
+            // Wei cinsindeki verileri Ethers.js ile formatla (18 decimals)
             const data = {
-                burnedAmount: this.mockData.burnedAmount + Math.floor(Math.random() * 10000),
-                treasuryAmount: this.mockData.treasuryAmount + Math.floor(Math.random() * 5000),
-                royaltiesAmount: this.mockData.royaltiesAmount + Math.floor(Math.random() * 3000)
+                burnedAmount: this.formatWeiToToken(rawData.burnAmount),
+                treasuryAmount: this.formatWeiToToken(rawData.treasuryAmount),
+                royaltiesAmount: this.formatWeiToToken(rawData.creatorFeeAmount)
             };
             
+            console.log('✅ Formatlanmış veriler:', data);
             this.updateTokenomicsDisplay(data);
             
         } catch (error) {
             console.error('❌ Tokenomik veri hatası:', error);
-            this.showErrorState();
+            
+            // Hata durumunda fallback - mock data kullan
+            console.log('🔄 Fallback: Mock data kullanılıyor...');
+            const fallbackData = {
+                burnedAmount: this.mockData.burnedAmount,
+                treasuryAmount: this.mockData.treasuryAmount,
+                royaltiesAmount: this.mockData.royaltiesAmount
+            };
+            
+            this.updateTokenomicsDisplay(fallbackData);
         }
     }
 
@@ -189,20 +241,26 @@ class PUFTokenChecker {
     }
 
     updateTokenomicsDisplay(data) {
-        // Update Burned Amount
-        this.updateDataCard('burnedAmount', data.burnedAmount, this.calculatePercentage(data.burnedAmount, 10000000));
-        
-        // Update Treasury Amount
-        this.updateDataCard('treasuryAmount', data.treasuryAmount, this.calculatePercentage(data.treasuryAmount, 5000000));
-        
-        // Update Royalties Amount
-        this.updateDataCard('royaltiesAmount', data.royaltiesAmount, this.calculatePercentage(data.royaltiesAmount, 2000000));
+        // Total supply yoksa yüzde hesaplama yapmayalım
+        if (!this.totalSupply || this.totalSupply === 0) {
+            console.log('⚠️ Total supply henüz yüklenmedi, yüzdeler hesaplanamıyor');
+            
+            // Sadece değerleri göster, yüzdeyi gizle
+            this.updateDataCard('burnedAmount', data.burnedAmount, 0, false);
+            this.updateDataCard('treasuryAmount', data.treasuryAmount, 0, false);
+            this.updateDataCard('royaltiesAmount', data.royaltiesAmount, 0, false);
+        } else {
+            // Gerçek total supply ile yüzde hesapla
+            this.updateDataCard('burnedAmount', data.burnedAmount, this.calculatePercentage(data.burnedAmount, this.totalSupply), true);
+            this.updateDataCard('treasuryAmount', data.treasuryAmount, this.calculatePercentage(data.treasuryAmount, this.totalSupply), true);
+            this.updateDataCard('royaltiesAmount', data.royaltiesAmount, this.calculatePercentage(data.royaltiesAmount, this.totalSupply), true);
+        }
         
         // Update footer timestamps
         this.updateCardFooters();
     }
 
-    updateDataCard(elementId, value, percentage) {
+    updateDataCard(elementId, value, percentage, showPercentage = true) {
         const element = document.getElementById(elementId);
         if (element) {
             const valueSpan = element.querySelector('.value');
@@ -214,7 +272,11 @@ class PUFTokenChecker {
             }
             
             if (percentageSpan) {
-                percentageSpan.textContent = `${percentage.toFixed(2)}%`;
+                if (showPercentage && percentage > 0) {
+                    percentageSpan.textContent = `${percentage.toFixed(4)}%`;
+                } else {
+                    percentageSpan.textContent = `-%`;
+                }
             }
         }
     }
@@ -226,6 +288,20 @@ class PUFTokenChecker {
         footers.forEach(footer => {
             footer.textContent = `Last updated: ${now}`;
         });
+    }
+
+    formatWeiToToken(weiValue) {
+        try {
+            // Wei'den ether'e çevir (18 decimals)
+            if (!weiValue || weiValue === '0') return 0;
+            
+            // Ethers.js v6 kullanarak formatEther (utils namespace yok)
+            const etherValue = ethers.formatEther(weiValue);
+            return parseFloat(etherValue);
+        } catch (error) {
+            console.error('Wei formatlanması hatası:', error, weiValue);
+            return 0;
+        }
     }
 
     formatNumber(num) {

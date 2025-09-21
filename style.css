@@ -249,6 +249,27 @@ body {
     font-size: 0.9rem;
 }
 
+.footer .signature {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: #666;
+    font-style: italic;
+}
+
+.footer .creator {
+    color: #4CAF50;
+    font-weight: bold;
+    font-style: normal;
+    text-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+    transition: all 0.3s ease;
+}
+
+.footer .creator:hover {
+    color: #66BB6A;
+    text-shadow: 0 0 10px rgba(76, 175, 80, 0.6);
+    cursor: pointer;
+}
+
 
 /* Loading Animation */
 .loading {
