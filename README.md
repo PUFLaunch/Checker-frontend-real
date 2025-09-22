@@ -58,7 +58,7 @@ Dashboard, tüm ekran boyutlarında kaydırma gerektirmeyecek şekilde optimize 
 - [ ] $PUF blockchain API entegrasyonu
 - [ ] Gerçek endpoint'ler bağlantısı
 - [ ] Error handling iyileştirmeleri
-- [ ] Grafik görselleştirmeleri (opsiyonel)
+- [ ] Grafik görselleştirmeleri (opsiyonel) 
 
 ## 🔄 Güncelleme
 
