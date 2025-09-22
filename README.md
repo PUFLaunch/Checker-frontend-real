@@ -60,6 +60,6 @@ Dashboard, tüm ekran boyutlarında kaydırma gerektirmeyecek şekilde optimize 
 - [ ] Error handling iyileştirmeleri
 - [ ] Grafik görselleştirmeleri (opsiyonel)  
 
-## 🔄 Güncelleme
+## 🔄 Güncelleme 
 
 Veriler şu anda mock data ile çalışıyor. API endpoint'leri hazır olduğunda `script.js` dosyasındaki ilgili fonksiyonlar güncellenecek.
