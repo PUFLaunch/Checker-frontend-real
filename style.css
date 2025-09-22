@@ -231,6 +231,29 @@ body {
     font-weight: bold;
 }
 
+/* Total Volume Info Styles */
+.total-volume-info {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.total-volume-info .label {
+    color: #bbb;
+    font-size: 0.85rem;
+}
+
+.total-volume-value {
+    color: var(--accent-color);
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.volume-unit {
+    color: #999;
+    font-size: 0.8rem;
+}
+
 /* Card Footer */
 .card-footer {
     text-align: center;

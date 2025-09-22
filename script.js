@@ -67,6 +67,13 @@ class PUFTokenChecker {
                 element.classList.add('loading');
             }
         });
+        
+        // Total volume loading state
+        const totalVolumeElement = document.getElementById('totalVolumeValue');
+        if (totalVolumeElement) {
+            totalVolumeElement.textContent = '...';
+            totalVolumeElement.classList.add('loading');
+        }
     }
 
     async fetchTotalSupply() {
@@ -241,6 +248,14 @@ class PUFTokenChecker {
     }
 
     updateTokenomicsDisplay(data) {
+        // Total volume hesapla (creator royalty'den)
+        const totalVolume = this.calculateTotalVolume(data.royaltiesAmount);
+        
+        console.log(`💹 Hesaplanan Total Volume: ${this.formatNumber(totalVolume)} WLD`);
+        
+        // Total volume'u göster
+        this.updateTotalVolumeDisplay(totalVolume);
+        
         // Total supply yoksa yüzde hesaplama yapmayalım
         if (!this.totalSupply || this.totalSupply === 0) {
             console.log('⚠️ Total supply henüz yüklenmedi, yüzdeler hesaplanamıyor');
@@ -281,6 +296,14 @@ class PUFTokenChecker {
         }
     }
 
+    updateTotalVolumeDisplay(totalVolume) {
+        const totalVolumeElement = document.getElementById('totalVolumeValue');
+        if (totalVolumeElement) {
+            totalVolumeElement.textContent = this.formatNumber(totalVolume);
+            totalVolumeElement.classList.remove('loading');
+        }
+    }
+
     updateCardFooters() {
         const footers = document.querySelectorAll('.card-footer .last-updated');
         const now = new Date().toLocaleTimeString('tr-TR');
@@ -315,6 +338,17 @@ class PUFTokenChecker {
 
     calculatePercentage(value, total) {
         return (value / total) * 100;
+    }
+
+    calculateTotalVolume(creatorRoyalty) {
+        // Fee Flywheel: 2% total fee per trade
+        // Creator Royalties: 35% of that 2% = 0.70% of total volume
+        // Creator Royalty = Total Volume * 0.02 * 0.35 = Total Volume * 0.007
+        // Total Volume = Creator Royalty / 0.007
+        if (!creatorRoyalty || creatorRoyalty <= 0) return 0;
+        
+        const volumeMultiplier = 0.02 * 0.35; // %2'nin %35'i = 0.007
+        return creatorRoyalty / volumeMultiplier;
     }
 
     updateLastSync() {
