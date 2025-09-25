@@ -1,96 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>$PUF Stats Dashboard</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Ethers.js v6 CDN (via jsdelivr) -->
-    <script src="https://cdn.jsdelivr.net/npm/ethers@6/dist/ethers.umd.min.js"></script>
-</head>
-<body>
-    <div class="container">
-        <!-- Header Section -->
-        <header class="header">
-            <h1>$PUFBoard</h1>
-            <div class="token-info">
-                <div class="token-price">
-                    <span class="price-label">Current Price:</span>
-                    <span class="price-value" id="tokenPrice">Loading...</span>
-                </div>
-            </div>
-        </header>
+    <meta name="description" content="$PUF tokeni için gerçek zamanlı tokenomik ve fiyat panosu" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+  </html>
 
-        <!-- Dashboard Cards -->
-        <main class="dashboard">
-            <!-- Burned Amount Card -->
-            <div class="data-card burned-card">
-                <div class="card-header">
-                    <h2>Burned Amount</h2>
-                    <div class="status-indicator burned-indicator"></div>
-                </div>
-                <div class="card-content">
-                    <div class="main-value" id="burnedAmount">
-                        <span class="value">0</span>
-                        <span class="unit">PUF</span>
-                    </div>
-                    <div class="sub-info">
-                        <span class="percentage">0%</span>
-                        <span class="label">of total supply</span>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <span class="last-updated">Waiting for data...</span>
-                </div>
-            </div>
-
-            <!-- Treasury Csard -->
-            <div class="data-card treasury-card">
-                <div class="card-header">
-                    <h2>Sent to Treasury</h2>
-                    <div class="status-indicator treasury-indicator"></div>
-                </div>
-                <div class="card-content">
-                    <div class="main-value" id="treasuryAmount">
-                        <span class="value">0</span>
-                        <span class="unit">PUF</span>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <span class="last-updated">Waiting for data...</span>
-                </div>
-            </div>
-
-            <!-- Creator Royalties Card -->
-            <div class="data-card royalties-card">
-                <div class="card-header">
-                    <h2>Creator Royalties Distributed</h2>
-                    <div class="status-indicator royalties-indicator"></div>
-                </div>
-                <div class="card-content">
-                    <div class="main-value" id="royaltiesAmount">
-                        <span class="value">0</span>
-                        <span class="unit">WLD</span>
-                    </div>
-                    <div class="sub-info total-volume-info">
-                        <span class="label">Total Volume Since Update:</span>
-                        <span class="total-volume-value" id="totalVolumeValue">-</span>
-                        <span class="volume-unit">WLD</span>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <span class="last-updated">Waiting for data...</span>
-                </div>
-            </div>
-        </main>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <p>Real-time $PUF data • Last sync: <span id="lastSync">Never</span></p>
-            <p class="signature">$PUFBoard by <span class="creator">lambzerfaust.2702</span></p>
-        </footer>
-    </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
