@@ -1,37 +1,43 @@
-# 💎 $PUF Stats Dashboard
+# 💎 $PUF Stats Dashboard (React)
 
-$PUF tokeninin tokenomik verilerini izleyen minimal web dashboard'u.
+$PUF tokeninin tokenomik verilerini izleyen React tabanlı modern web dashboard'u.
 
 ## 📊 Özellikler
 
 - **Burned Amount** (Turuncu) - Yakılan token miktarı
-- **Treasury Amount** (Yeşil) - Hazineye giden miktar  
+- **Treasury Amount** (Yeşil) - Hazineye giden miktar
 - **Creator Royalties** (Mavi) - Yaratıcılara dağıtılan telif hakları
 - **Token Fiyatı** - Anlık $PUF token fiyatı
-- **Otomatik Yenileme** - Her 30 saniyede bir güncelleme
+- **Manuel Veri Yükleme** - Sayfa yüklendiğinde veri çekme
 - **Ultra Responsive** - Mobil uyumlu, kaydırma gerektirmez
+- **Modern React** - Bileşen tabanlı, state yönetimi ile
 
 ## 🚀 Kullanım
 
-1. **Basit Çalıştırma:**
+1. **Dependencies yükleyin:**
    ```bash
-   # Dosyaları bir web sunucusu ile çalıştırın
-   python -m http.server 8000
-   # veya
-   npx serve .
+   npm install
    ```
 
-2. **Tarayıcıda açın:**
+2. **Development server'ı başlatın:**
+   ```bash
+   npm start
    ```
-   http://localhost:8000
+
+3. **Tarayıcıda açın:**
+   ```
+   http://localhost:3000
    ```
 
 ## 🔧 Teknik Detaylar
 
 - **Token:** $PUF
-- **Blockchain:** World Network
+- **Blockchain:** World Network (QuikNode RPC)
+- **Framework:** React 18
+- **Blockchain Library:** Ethers.js v6
 - **Tema:** Siyah/Beyaz minimal tasarım
-- **API:** Placeholder (sonradan eklenecek)
+- **State Management:** React Hooks
+- **API:** DexScreener + Custom Tokenomics API
 
 ## 🎨 Renk Kodları
 
@@ -41,9 +47,9 @@ $PUF tokeninin tokenomik verilerini izleyen minimal web dashboard'u.
 - **Background:** `#0a0a0a` (Siyah)
 - **Cards:** `#1a1a1a` (Koyu gri)
 
-## ⌨️ Klavye Kısayolları
+## ⌨️ Özellikler
 
-- **ESC** - Manuel veri yenileme (otomatik yenileme her 30 saniyede)
+- Sayfa yenileme ile veri güncelleme
 
 ## 📱 Mobile Optimizasyon
 
@@ -55,11 +61,13 @@ Dashboard, tüm ekran boyutlarında kaydırma gerektirmeyecek şekilde optimize 
 
 ## 📝 Yapılacaklar
 
+- [x] React'e dönüştürme ✅
 - [ ] $PUF blockchain API entegrasyonu
 - [ ] Gerçek endpoint'ler bağlantısı
 - [ ] Error handling iyileştirmeleri
-- [ ] Grafik görselleştirmeleri (opsiyonel)  
+- [ ] Grafik görselleştirmeleri (opsiyonel)
+- [ ] TypeScript desteği (opsiyonel)  
 
-## 🔄 Güncelleme 
+## 🔄 Güncelleme
 
-Veriler şu anda mock data ile çalışıyor. API endpoint'leri hazır olduğunda `script.js` dosyasındaki ilgili fonksiyonlar güncellenecek.
+Veriler şu anda mock data ile çalışıyor. API endpoint'leri hazır olduğunda `src/App.js` dosyasındaki ilgili fonksiyonlar güncellenecek.
